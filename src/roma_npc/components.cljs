@@ -51,7 +51,7 @@
   [{:keys [npc]
     :as attr}]
   (let [pos "left"
-        {:keys [name race gender]} npc]
+        {:keys [name race gender image]} npc]
     [<container> {}
      [<message-list> {}
       [<message> {:pos pos}
