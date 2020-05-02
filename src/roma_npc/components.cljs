@@ -19,14 +19,18 @@
   [:section.message-list content])
 
 (defn <avatar>
-  [{:keys [rounded?]
-    :or {rounded? true}
+  [{:keys [rounded? size]
+    :or {rounded? true
+         size "medium"}
     :as attr}]
   [:img.nes-avatar
-   (merge 
-   {:class (when rounded?
-             "is-rounded")}
-   (dissoc attr :src :rounded?))]
+   (merge
+     {:class (clojure.string/join
+               " "
+               [(when rounded?
+                  "is-rounded")
+                (str "is-" size)])}
+     (dissoc attr :rounded? :size))]
 ;  <img class="nes-avatar is-rounded" alt="Gravatar image example" src="https://www.gravatar.com/avatar?s=15" style="image-rendering: pixelated;">
   )
 
@@ -51,12 +55,19 @@
   [{:keys [npc]
     :as attr}]
   (let [pos "left"
-        {:keys [name race gender image]} npc]
+        {:keys [name race gender image]} npc
+        avatar [<avatar> {:src image
+                          :size "large"
+                          :style {:image-rendering "pixelated"}}]]
     [<container> {}
      [<message-list> {}
       [<message> {:pos pos}
+       (when (= "left" pos)
+         avatar)
        [<balloon>
         {:pos pos}
         [:p name]
         [:p gender]
-        [:p race]]]]]))
+        [:p race]]
+       (when (= "right" pos)
+         avatar)]]]))
