@@ -1,0 +1,14 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src"]
+
+ :dev-http {8080 "public/"}
+ :dependencies
+ [[reagent "1.0.0-alpha1"]]
+
+ :builds
+ {:app {:asset-path "/js"
+        :output-dir "public/js"
+        :target :browser
+        :modules {:main {:init-fn roma-npc.main/main!}}
+        :devtools {:after-load roma-npc.main/reload!}}}}
